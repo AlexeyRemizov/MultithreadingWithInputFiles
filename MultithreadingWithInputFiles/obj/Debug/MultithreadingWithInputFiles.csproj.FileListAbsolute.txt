@@ -1,0 +1,6 @@
+c:\users\oleksii.remizov\documents\visual studio 2017\Projects\MultithreadingWithInputFiles\MultithreadingWithInputFiles\bin\Debug\MultithreadingWithInputFiles.exe.config
+c:\users\oleksii.remizov\documents\visual studio 2017\Projects\MultithreadingWithInputFiles\MultithreadingWithInputFiles\bin\Debug\MultithreadingWithInputFiles.exe
+c:\users\oleksii.remizov\documents\visual studio 2017\Projects\MultithreadingWithInputFiles\MultithreadingWithInputFiles\bin\Debug\MultithreadingWithInputFiles.pdb
+c:\users\oleksii.remizov\documents\visual studio 2017\Projects\MultithreadingWithInputFiles\MultithreadingWithInputFiles\obj\Debug\MultithreadingWithInputFiles.csprojResolveAssemblyReference.cache
+c:\users\oleksii.remizov\documents\visual studio 2017\Projects\MultithreadingWithInputFiles\MultithreadingWithInputFiles\obj\Debug\MultithreadingWithInputFiles.exe
+c:\users\oleksii.remizov\documents\visual studio 2017\Projects\MultithreadingWithInputFiles\MultithreadingWithInputFiles\obj\Debug\MultithreadingWithInputFiles.pdb
