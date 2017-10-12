@@ -17,6 +17,8 @@ namespace MultithreadingWithInputFiles
         public static void Main(string[] args)
         {
             GetAllFiles getAllFiles = new GetAllFiles();
+            SearchWord searchWord = new SearchWord();
+            SelectTheDesiredPass selectPass = new SelectTheDesiredPass();
             for (int i = 0; i < getAllFiles.FindAllFilesInDirectory(@"d:\logs!\").Count(); i++)
             {
                 if (ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc), getAllFiles))
@@ -34,9 +36,11 @@ namespace MultithreadingWithInputFiles
         {
            
             GetAllFiles getAllFiles = (GetAllFiles)stateInfo;
+            SearchWord searchWord = new SearchWord();
+            SelectTheDesiredPass selectPass = ( new SelectTheDesiredPass());
             //var count = getAllFiles.FindAllFilesInDirectory(@"d:\logs!\").Count();//22
             {
-                foreach (var wordsNumber in getAllFiles.FindWordInTheFile(getAllFiles.ReturnFileFromAll(getAllFiles.FindAllFilesInDirectory(@"d:\logs!\"), i), curWord).OrderByDescending(ws => ws.Value))
+                foreach (var wordsNumber in searchWord.FindWordInTheFile(selectPass.ReturnFileFromAll(getAllFiles.FindAllFilesInDirectory(@"d:\logs!\"), i), curWord).OrderByDescending(ws => ws.Value))
                 {
                     Console.WriteLine("Substring {0} is in line #{1} and occurs <<< {2} >>> ---{3} ", "VirtualCallManager", wordsNumber.Key, wordsNumber.Value, Thread.CurrentThread.GetHashCode().ToString());
 
