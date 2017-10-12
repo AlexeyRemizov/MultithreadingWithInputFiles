@@ -18,10 +18,10 @@ namespace MultithreadingWithInputFiles
         {
             GetAllFiles getAllFiles = new GetAllFiles();
             SearchWord searchWord = new SearchWord();
-            SelectTheDesiredPass selectPass = new SelectTheDesiredPass();
+            //SelectTheDesiredPass selectPass = new SelectTheDesiredPass();
             for (int i = 0; i < getAllFiles.FindAllFilesInDirectory(@"d:\logs!\").Count(); i++)
             {
-                if (ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc), getAllFiles))
+                if (ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc), searchWord))
                 {
 
                     Thread.Sleep(1000);
@@ -35,9 +35,9 @@ namespace MultithreadingWithInputFiles
         static void ThreadProc(object stateInfo)
         {
            
-            GetAllFiles getAllFiles = (GetAllFiles)stateInfo;
-            SearchWord searchWord = new SearchWord();
-            SelectTheDesiredPass selectPass = ( new SelectTheDesiredPass());
+            GetAllFiles getAllFiles = new GetAllFiles();
+            SearchWord searchWord = (SearchWord)stateInfo;
+            SelectTheDesiredPass selectPass = new SelectTheDesiredPass();
             //var count = getAllFiles.FindAllFilesInDirectory(@"d:\logs!\").Count();//22
             {
                 foreach (var wordsNumber in searchWord.FindWordInTheFile(selectPass.ReturnFileFromAll(getAllFiles.FindAllFilesInDirectory(@"d:\logs!\"), i), curWord).OrderByDescending(ws => ws.Value))
