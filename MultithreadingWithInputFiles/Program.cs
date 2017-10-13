@@ -12,16 +12,16 @@ namespace MultithreadingWithInputFiles
 {
     public class Program
     {
-        public static string curWord = "VirtualCallManager";
-        public static int i = 0;
         public static void Main(string[] args)
         {
-            GetAllFiles getAllFiles = new GetAllFiles();
-            SearchWord searchWord = new SearchWord();
-            //SelectTheDesiredPass selectPass = new SelectTheDesiredPass();
-            for (int i = 0; i < getAllFiles.FindAllFilesInDirectory(@"d:\logs!\").Count(); i++)
+            GetAllFilesInTheDirectory getAllFilesInTheDirectory = new GetAllFilesInTheDirectory();
+            var confWord = "VirtualCallManager";
+            var fileDirectory = @"d:\logs!\";
+            var paths = getAllFilesInTheDirectory.FindAllFilesInDirectory(fileDirectory);
+            foreach ( var path in paths)
             {
-                if (ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc), searchWord))
+                SearchWordContext searchWordContext = new SearchWordContext(path, confWord);
+                if (ThreadPool.QueueUserWorkItem(new WaitCallback(searchWordContext.ThreadProc), searchWordContext))
                 {
 
                     Thread.Sleep(1000);
@@ -32,25 +32,7 @@ namespace MultithreadingWithInputFiles
             Console.ReadKey();
         }
 
-        static void ThreadProc(object stateInfo)
-        {
-           
-            GetAllFiles getAllFiles = new GetAllFiles();
-            SearchWord searchWord = (SearchWord)stateInfo;
-            SelectTheDesiredPass selectPass = new SelectTheDesiredPass();
-            //var count = getAllFiles.FindAllFilesInDirectory(@"d:\logs!\").Count();//22
-            {
-                foreach (var wordsNumber in searchWord.FindWordInTheFile(selectPass.ReturnFileFromAll(getAllFiles.FindAllFilesInDirectory(@"d:\logs!\"), i), curWord).OrderByDescending(ws => ws.Value))
-                {
-                    Console.WriteLine("Substring {0} is in line #{1} and occurs <<< {2} >>> ---{3} ", "VirtualCallManager", wordsNumber.Key, wordsNumber.Value, Thread.CurrentThread.GetHashCode().ToString());
 
-                }
-                i++;
-            }
-            
-
-        }
+        
     }
-
-    
 }

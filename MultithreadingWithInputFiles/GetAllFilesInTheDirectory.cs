@@ -12,13 +12,13 @@ using System.Text.RegularExpressions;
 
 namespace MultithreadingWithInputFiles
 {
-    public class GetAllFiles  
+    public class GetAllFilesInTheDirectory  
     {   
         public List<string> FindAllFilesInDirectory(string directory)
         {
-            string[] dirs;
+            
             List<string> dirsList = new List<string>();
-            dirs = Directory.GetFiles(directory, "*");
+            string[] dirs = Directory.GetFiles(directory, "*");
             dirsList.AddRange(dirs);
             return dirsList;
         }   

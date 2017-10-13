@@ -42,11 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GetAllFiles.cs" />
+    <Compile Include="GetAllFilesInTheDirectory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchWord.cs" />
-    <Compile Include="SelectTheDesiredPass.cs" />
+    <Compile Include="SearchWordContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
