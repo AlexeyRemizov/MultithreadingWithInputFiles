@@ -12,55 +12,48 @@ namespace MultithreadingWithInputFiles
 {
     public class SearchWordContext
     {
-        private static object lockthis = new object();
+        private static object _lockthis = new object();
         private string _filePath;
         private string _searchWord;
+        private Dictionary<string, string> _ResultStat;
 
-        
-
+        public ManualResetEvent manualEvent;
         public string FilePath { get { return _filePath; } }
-
         public string SearchWord { get { return _searchWord; } }
+        public Dictionary<string, string> ResultStat { get { return _ResultStat; } }
 
-        public Dictionary<int, string> ResultStat { get { return _ResultStat; } }
-        private Dictionary<int, string> _ResultStat;
-
-        public SearchWordContext(string filePath, string searchWord, Dictionary<int,string> resultStat)
+        public SearchWordContext(string filePath, string searchWord, Dictionary<string,string> resultStat, ManualResetEvent manualEvent)
         {
             _filePath = filePath;
             _searchWord = searchWord;
             _ResultStat = resultStat;
+            this.manualEvent = manualEvent;
         }
 
         public void ThreadProc(object stateInfo)
         {
             SearchWordContext searchWordContext = (SearchWordContext)stateInfo;
             {
-                /*IOrderedEnumerable<KeyValuePair<int, string>>*/
-                var results = FindWordInTheFile(searchWordContext.FilePath,searchWordContext.SearchWord);//.OrderByDescending(ws => ws.Value);
-               
-                
-               foreach (var wordsNumber in results)
                 {
-                    //Console.WriteLine("Substring {0} is in line #{1} and occurs <<< {2} >>> ---{3} ", searchWordContext.SearchWord,
-                    //       wordsNumber.Key, wordsNumber.Value, Thread.CurrentThread.GetHashCode().ToString());
-                    lock (lockthis)
+                    var results = FindWordInTheFile(searchWordContext.FilePath, searchWordContext.SearchWord);
+                    foreach (var wordsNumber in results)
                     {
-                        ResultStat.Add(wordsNumber.Key, wordsNumber.Value);
+                        lock (_lockthis)
+                        {
+                            ResultStat.Add( wordsNumber.Key , wordsNumber.Value);
+                        }
                     }
-                }
-
-                //wordData.resultStat = rStat;
-                
+                    searchWordContext.manualEvent.Set();
+                }                
             }
         }
 
         // file name - line 
 
-        public Dictionary<int, string> FindWordInTheFile(string filePath, string searchWord)
+        public Dictionary<string, string> FindWordInTheFile(string filePath, string searchWord)
         {
             
-            var wordsStat = new Dictionary<int, string>();
+            var wordsStat = new Dictionary<string, string>();
             int amountInTheLine;
             try
             {
@@ -76,7 +69,7 @@ namespace MultithreadingWithInputFiles
                         if (amountInTheLine > 0)
                         {
 
-                                wordsStat[numberOfString] = filePath;
+                            wordsStat[numberOfString + "----->" + filePath] = inputLine;
                         }
                     }
                 }

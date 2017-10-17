@@ -16,7 +16,6 @@ namespace MultithreadingWithInputFiles
     {   
         public List<string> FindAllFilesInDirectory(string directory)
         {
-            
             List<string> dirsList = new List<string>();
             string[] dirs = Directory.GetFiles(directory, "*");
             dirsList.AddRange(dirs);

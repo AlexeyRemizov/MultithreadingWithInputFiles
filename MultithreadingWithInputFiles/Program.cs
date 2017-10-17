@@ -7,6 +7,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections.Concurrent;
+using System.Configuration;
 
 namespace MultithreadingWithInputFiles
 {
@@ -15,18 +16,21 @@ namespace MultithreadingWithInputFiles
         public static void Main(string[] args)
         {
            
+            string confWord = ConfigurationManager.AppSettings["confword_"];
+            var fileDirectory = ConfigurationManager.AppSettings[@"filedirectory_"];
+
             GetAllFilesInTheDirectory getAllFilesInTheDirectory = new GetAllFilesInTheDirectory();
-            var confWord = "VirtualCallManager";
-            var fileDirectory = @"d:\logs!\";
-            Dictionary<int, string> ddd = new Dictionary<int, string>();
-            
- 
             var paths = getAllFilesInTheDirectory.FindAllFilesInDirectory(fileDirectory);
-            WordData wd = new WordData();
+            var amount = paths.Count();
+            ManualResetEvent[] manualEvents = new ManualResetEvent[amount];
+
+            int i = 0;
+            Dictionary<string, string> outputData = new Dictionary<string, string>();
             foreach ( var path in paths)
             {
-                SearchWordContext searchWordContext = new SearchWordContext(path, confWord, ddd);
-                
+                manualEvents[i] = new ManualResetEvent(false);
+                SearchWordContext searchWordContext = new SearchWordContext(path, confWord, outputData, manualEvents[i]);
+                i++;
                 
                 if (ThreadPool.QueueUserWorkItem(new WaitCallback(searchWordContext.ThreadProc), searchWordContext))
                 {
@@ -35,9 +39,10 @@ namespace MultithreadingWithInputFiles
                 }
                 
             }
-            foreach (var dd in ddd)
+            WaitHandle.WaitAll(manualEvents);
+            foreach (var outData in outputData)
             {
-                Console.WriteLine("{0}   {1}", dd.Key, dd.Value);
+                Console.WriteLine("{0}   {1}", outData.Key, outData.Value);
             }
             
             Console.WriteLine("!!!Enter key!!!");
