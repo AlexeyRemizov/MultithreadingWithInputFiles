@@ -37,7 +37,6 @@ namespace MultithreadingWithInputFiles
                     
                     Thread.Sleep(1000);
                 }
-                
             }
             WaitHandle.WaitAll(manualEvents);
             foreach (var outData in outputData)

@@ -48,8 +48,6 @@ namespace MultithreadingWithInputFiles
             }
         }
 
-        // file name - line 
-
         public Dictionary<string, string> FindWordInTheFile(string filePath, string searchWord)
         {
             
@@ -80,7 +78,6 @@ namespace MultithreadingWithInputFiles
                 Console.WriteLine("The programm failed with an error.");
                 Console.WriteLine(ex.ToString());
             }
-
             return wordsStat;
         }
     }
